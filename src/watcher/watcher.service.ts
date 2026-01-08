@@ -15,25 +15,39 @@ export class WatcherService {
     const prompt = `
       Current Time: ${currentTime}
 
-      Identify trending sports events and political developments that are breaking or upcoming and high-impact.
-      Focus on events that are verifiable and have a clear resolution.
+      You are monitoring Twitter/X trends related to geopolitics, wars, and military conflicts.
+      
+      Track trending geopolitical narratives such as:
+      - Wars, invasions, military escalations
+      - Defense ministries, armed forces, and intelligence agencies
+      - Statements from governments, presidents, defense secretaries, NATO, UN
+      - Credible journalists, analysts, and official handles
+      
+      Examples: "US invade Greenland", "Iran–Israel escalation", "China Taiwan blockade"
+      
+      IGNORE:
+      - Memes, sarcasm, propaganda, or unverifiable rumors
+      - Opinion pieces without factual basis
+      - Vague speculation
+      
+      Extract event candidates that imply a future binary outcome.
       IMPORTANT: All expectedResolutionDate values MUST be in the future (after ${currentTime}).
       
       Return a JSON object with the following schema:
       {
         "signals": [
           {
-            "topic": "string",
-            "category": "SPORTS | POLITICS",
+            "topic": "string (factual description of the geopolitical event)",
+            "category": "GEOPOLITICS | MILITARY | WAR",
             "expectedResolutionDate": "ISO string (MUST be in the future)",
             "confidence": number (0.0 - 1.0),
-            "sources": ["string"]
+            "sources": ["string (credible Twitter handles, news agencies, official accounts)"]
           }
         ]
       }
     `;
 
-    const systemPrompt = 'You are the WATCHER component of an autonomous prediction market agent. Your job is to observe and normalize signals from the world.';
+    const systemPrompt = 'You are the WATCHER component of an autonomous prediction-market creation agent specialized in geopolitics, wars, and military conflicts. Your job is to continuously monitor Twitter/X trends and extract observable signals that imply future binary outcomes.';
 
     try {
       const response = await this.grokService.chat(prompt, systemPrompt);

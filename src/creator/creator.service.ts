@@ -1,12 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PnpService } from '../pnp/pnp.service';
+import { ConfigService } from '@nestjs/config';
 import { ApprovedMarket, CreatorOutput, CreatedMarket } from '../common/interfaces';
 
 @Injectable()
 export class CreatorService {
     private readonly logger = new Logger(CreatorService.name);
 
-    constructor(private readonly pnpService: PnpService) { }
+    constructor(
+        private readonly pnpService: PnpService,
+        private readonly configService: ConfigService,
+    ) { }
 
     async createMarkets(approvedMarkets: ApprovedMarket[]): Promise<CreatorOutput> {
         this.logger.log(`CREATOR: Executing market creation for ${approvedMarkets.length} approved markets...`);
@@ -22,11 +26,14 @@ export class CreatorService {
 
         for (const market of approvedMarkets) {
             try {
+                const defaultLiquidity = this.configService.get<string>('DEFAULT_INITIAL_LIQUIDITY') || '1000000';
+                const initialLiquidity = (market as any).initialLiquidity ? BigInt((market as any).initialLiquidity) : BigInt(defaultLiquidity);
+
                 const result = await this.pnpService.createV2Market({
                     question: market.question,
-                    initialLiquidity: BigInt(1000000), // Default 1 USDC
+                    initialLiquidity: initialLiquidity,
                     endTime: BigInt(Math.floor(new Date(market.resolutionTime).getTime() / 1000)),
-                    collateralMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // USDC
+                    collateralMint: this.configService.get<string>('USDC_MINT') || 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // USDC
                 });
 
                 const created: CreatedMarket = {

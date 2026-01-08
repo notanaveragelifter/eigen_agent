@@ -14,4 +14,14 @@ export class AgentController {
     async run(): Promise<AgentCycleResult> {
         return await this.agentService.run();
     }
+
+    /**
+     * Test only the swapping logic (SOL -> USDC)
+     * POST /agent/test-swap
+     */
+    @Post('test-swap')
+    async testSwap(): Promise<string> {
+        return await this.agentService.testSwap();
+    }
 }
+

@@ -1,6 +1,6 @@
 export interface WatcherSignal {
     topic: string;
-    category: 'SPORTS' | 'POLITICS';
+    category: 'GEOPOLITICS' | 'MILITARY' | 'WAR';
     expectedResolutionDate: string;
     confidence: number;
     sources: string[];
@@ -12,10 +12,11 @@ export interface WatcherOutput {
 
 export interface ApprovedMarket {
     topic: string;
-    category: 'SPORTS' | 'POLITICS';
+    category: 'GEOPOLITICS' | 'MILITARY' | 'WAR';
     question: string;
     resolutionTime: string;
     oracleSource: string;
+    resolutionCriteria: string;
 }
 
 export interface RejectedSignal {
@@ -31,7 +32,7 @@ export interface DeciderOutput {
 export interface CreatedMarket {
     marketId: string;
     question: string;
-    category: 'SPORTS' | 'POLITICS';
+    category: 'GEOPOLITICS' | 'MILITARY' | 'WAR';
     resolutionTime: string;
 }
 

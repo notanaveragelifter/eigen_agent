@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PnpModule } from './pnp/pnp.module';
 import { AgentModule } from './agent/agent.module';
+import { FeeDeploymentModule } from './fee-deployment/fee-deployment.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AgentModule } from './agent/agent.module';
     ScheduleModule.forRoot(),
     PnpModule,
     AgentModule,
+    FeeDeploymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

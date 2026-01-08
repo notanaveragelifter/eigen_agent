@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PNPClient } from 'pnp-sdk';
 import { PublicKey } from '@solana/web3.js';
+import bs58 from 'bs58';
 
 export interface CreateMarketParams {
     question: string;
@@ -42,11 +43,16 @@ export class PnpService implements OnModuleInit {
         }
 
         try {
-            const walletSecret = JSON.parse(walletSecretStr);
-            this.client = new PNPClient(rpcUrl, Uint8Array.from(walletSecret));
+            let secretKey: Uint8Array;
+            if (walletSecretStr.trim().startsWith('[')) {
+                secretKey = Uint8Array.from(JSON.parse(walletSecretStr));
+            } else {
+                secretKey = bs58.decode(walletSecretStr.trim());
+            }
+            this.client = new PNPClient(rpcUrl, secretKey);
             this.logger.log('PNPClient initialized successfully');
         } catch (error) {
-            this.logger.error('Failed to initialize PNPClient', error);
+            this.logger.error('Failed to initialize PNPClient (Expected JSON array or Base58 string)', error);
         }
     }
 

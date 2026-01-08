@@ -22,50 +22,51 @@ export class GrokService {
 
         if (mockMode) {
             this.logger.log('MOCK_MODE: Returning mock response');
-            if (prompt.includes('Identify trending sports events')) {
+            if (prompt.includes('geopolitics, wars, and military conflicts')) {
                 return JSON.stringify({
                     signals: [
                         {
-                            topic: 'India vs Australia Cricket Final',
-                            category: 'SPORTS',
-                            expectedResolutionDate: '2026-03-15T00:00:00Z',
-                            confidence: 0.95,
-                            sources: ['https://www.icc-cricket.com']
+                            topic: 'Native SOL Territorial Dispute',
+                            category: 'GEOPOLITICS',
+                            expectedResolutionDate: '2026-06-30T00:00:00Z',
+                            confidence: 0.9,
+                            sources: ['@ReutersWorld', '@TheEconomist']
                         },
                         {
-                            topic: 'US Senate Infrastructure Bill',
-                            category: 'POLITICS',
-                            expectedResolutionDate: '2025-06-30T00:00:00Z',
+                            topic: 'South China Sea Freedom of Navigation Operation',
+                            category: 'MILITARY',
+                            expectedResolutionDate: '2026-03-20T00:00:00Z',
                             confidence: 0.85,
-                            sources: ['https://www.congress.gov']
+                            sources: ['@USNavy', '@CNN']
                         }
                     ]
                 });
             }
-            if (prompt.includes('Evaluate the following candidate signals')) {
+            if (prompt.includes('Evaluate the following geopolitical signals')) {
                 return JSON.stringify({
                     approvedMarkets: [
                         {
-                            topic: 'India vs Australia Cricket Final',
-                            category: 'SPORTS',
-                            question: 'Will India win the ICC Champions Trophy Final on or before March 15, 2026?',
-                            resolutionTime: '2026-03-15T00:00:00Z',
-                            oracleSource: 'https://www.icc-cricket.com'
+                            topic: 'Native SOL Territorial Dispute',
+                            category: 'GEOPOLITICS',
+                            question: 'Will the Arctic Council announce a formal agreement on territorial boundaries before June 30, 2026?',
+                            resolutionTime: '2026-06-30T00:00:00Z',
+                            oracleSource: 'Official statements from the Arctic Council and its member states (USA, Canada, Russia, etc.)',
+                            resolutionCriteria: 'A joint communique or treaty signed by at least 5 member states resolving the 2024 boundary disputes.'
                         }
                     ],
                     rejectedSignals: [
                         {
-                            topic: 'US Senate Infrastructure Bill',
-                            reason: 'Too speculative at this stage'
+                            topic: 'South China Sea Freedom of Navigation Operation',
+                            reason: 'Not binary enough; FONOPS are continuous and often not framed as single event by official sources.'
                         }
                     ]
                 });
             }
             if (prompt.includes('Analyze the sentiment')) {
                 return JSON.stringify({
-                    bias: 'YES',
-                    confidence: 0.8,
-                    reasoning: 'India has a strong home advantage and recent form.'
+                    bias: 'NO',
+                    confidence: 0.75,
+                    reasoning: 'Tensions remain high and a formal agreement is unlikely in this timeframe given current diplomatic stagnation.'
                 });
             }
             return '{}';
